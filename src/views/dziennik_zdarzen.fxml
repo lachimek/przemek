@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="527.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventLogController">
+   <children>
+      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="508.0" prefWidth="640.0" style="-fx-background-color: #EEB902;" VBox.vgrow="ALWAYS" fx:id="rootPane">
+         <children>
+            <Label layoutX="248.0" layoutY="14.0" text="Dziennik zdarzeń">
+               <font>
+                  <Font name="Helonia" size="24.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="77.0" layoutY="68.0" prefHeight="238.0" prefWidth="508.0" style="-fx-background-color: #8FC93A;">
+               <children>
+                  <Label layoutX="93.0" layoutY="47.0" text="Tutaj wyświetlany wynik zapytań, jakiś przewijany box czy coś" />
+               </children>
+            </AnchorPane>
+            <Button layoutX="26.0" layoutY="344.0" mnemonicParsing="false" text="Wyświetl wyświetl dziennik zdarzeń" />
+            <Button layoutX="26.0" layoutY="488.0" mnemonicParsing="false" text="Powrót do menu głównego" onAction="#backToMainMenu"/>
+            <Text layoutX="26.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="I tu generalnie może być najtrudniej bo fajnie by było zrobić takie coś" />
+            <Text layoutX="26.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="że za każdym razem jak użytkownik robi insert/update/delete zapisuje w tabeli jego id i krótki opis co było robione" />
+            <Text layoutX="26.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typu &quot;insert, Studenci, id=152&quot; albo &quot;update, zakwaterowanie, id=12&quot;" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
