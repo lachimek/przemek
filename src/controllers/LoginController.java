@@ -20,7 +20,7 @@ public class LoginController {
         String testlogin = "admin";
         String testpass = "admin1";
 
-        if(loginTF.getText().equals(testlogin) && passTF.getText().equals(testpass)){
+        if(Context.getInstance().getDbHandler().loginUser(loginTF.getText(), passTF.getText())){
             System.out.println("success");
             Context.getInstance().getUser().logIn(loginTF.getText(), passTF.getText());
             VBox pane = FXMLLoader.load(getClass().getResource("../views/menu_glowne.fxml"));

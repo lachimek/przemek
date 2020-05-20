@@ -11,4 +11,7 @@ public class Context {
     public User getUser(){
         return user;
     }
+
+    private DbHandler dbHandler = new DbHandler();
+    public DbHandler getDbHandler(){ return dbHandler; }
 }
