@@ -26,7 +26,10 @@ public class LoginController {
             VBox pane = FXMLLoader.load(getClass().getResource("../views/menu_glowne.fxml"));
             rootPane.getChildren().setAll(pane);
         }else{
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Błędne dane logowania");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd logowania");
+            alert.setHeaderText(null);
+            alert.setContentText("Błędne dane logowania");
             alert.initOwner(rootPane.getScene().getWindow());
             alert.showAndWait();
             System.out.println("invalid credentials");

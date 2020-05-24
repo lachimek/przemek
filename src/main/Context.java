@@ -2,6 +2,7 @@ package main;
 
 public class Context {
     private final static Context instance = new Context();
+    public String selectedSymbol;
 
     public static Context getInstance(){
         return instance;

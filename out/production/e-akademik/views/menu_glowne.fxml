@@ -6,27 +6,27 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="527.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
+<VBox prefHeight="960.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
   <children>
     <AnchorPane fx:id="rootPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: #EEB902;" VBox.vgrow="ALWAYS">
          <children>
-            <Label layoutX="219.0" layoutY="33.0" text="E_Akademik">
+            <Label layoutX="492.0" layoutY="152.0" prefHeight="114.0" prefWidth="298.0" text="E_Akademik">
                <font>
-                  <Font name="Helonia" size="36.0" />
+                  <Font size="50.0" />
                </font>
             </Label>
-            <Button fx:id="logOutButton" layoutX="571.0" layoutY="492.0" mnemonicParsing="false" onAction="#logout" text="Wyloguj" />
-            <AnchorPane layoutX="43.0" layoutY="140.0" prefHeight="247.0" prefWidth="554.0" style="-fx-background-color: #8FC93A;">
+            <Button fx:id="logOutButton" layoutX="1082.0" layoutY="907.0" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="184.0" text="Wyloguj" />
+            <AnchorPane layoutX="288.0" layoutY="299.0" prefHeight="379.0" prefWidth="705.0" style="-fx-background-color: #8FC93A;">
                <children>
-                  <Button fx:id="manageStudents" alignment="CENTER" layoutX="186.0" layoutY="32.0" mnemonicParsing="false" onAction="#openManageStudents" prefHeight="25.0" prefWidth="184.0" text="Zarządzaj studentami" />
-                  <Button fx:id="manageAccomm" alignment="CENTER" layoutX="187.0" layoutY="83.0" mnemonicParsing="false" onAction="#openManageAccomm" prefHeight="25.0" prefWidth="184.0" text="Zarządzaj zakwaterowaniem" />
-                  <Button fx:id="showEventLog" alignment="CENTER" layoutX="187.0" layoutY="185.0" mnemonicParsing="false" onAction="#openEventLog" prefHeight="25.0" prefWidth="184.0" text="Przeglądaj dziennik zdarzeń" />
-                  <Button fx:id="showPaymentHistory" alignment="CENTER" layoutX="187.0" layoutY="134.0" mnemonicParsing="false" onAction="#openPaymentHistory" prefHeight="25.0" prefWidth="184.0" text="Przeglądaj historię wpłat" />
+                  <Button fx:id="manageStudents" alignment="CENTER" layoutX="204.0" layoutY="24.0" mnemonicParsing="false" onAction="#openManageStudents" prefHeight="69.0" prefWidth="298.0" text="Zarządzaj studentami" />
+                  <Button fx:id="manageAccomm" alignment="CENTER" layoutX="204.0" layoutY="112.0" mnemonicParsing="false" onAction="#openManageAccomm" prefHeight="69.0" prefWidth="298.0" text="Zarządzaj zakwaterowaniem" />
+                  <Button fx:id="showPaymentHistory" alignment="CENTER" layoutX="204.0" layoutY="201.0" mnemonicParsing="false" onAction="#openPaymentHistory" prefHeight="69.0" prefWidth="298.0" text="Przeglądaj historię wpłat" />
+                  <Button fx:id="showEventLog" alignment="CENTER" layoutX="204.0" layoutY="284.0" mnemonicParsing="false" onAction="#openEventLog" prefHeight="69.0" prefWidth="298.0" text="Przeglądaj dziennik zdarzeń" />
                </children>
             </AnchorPane>
-            <Label fx:id="loggedInLabel" layoutX="14.0" layoutY="496.0" text="Nie jesteś zalogowany!">
+            <Label fx:id="loggedInLabel" layoutX="14.0" layoutY="907.0" prefHeight="39.0" prefWidth="606.0" text="Nie jesteś zalogowany!">
                <font>
-                  <Font name="Helonia" size="12.0" />
+                  <Font size="27.0" />
                </font>
             </Label>
          </children>
