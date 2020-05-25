@@ -4,13 +4,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -32,6 +31,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ManageStudentsController implements Initializable {
@@ -52,8 +52,6 @@ public class ManageStudentsController implements Initializable {
     public TableColumn colCzynsz;
     public TableColumn colStol;
 
-    public String selectedSymbol;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         db = Context.getInstance().getDbHandler();
@@ -72,25 +70,8 @@ public class ManageStudentsController implements Initializable {
     }
 
     public void showStudents() {
-        ResultSet rs = db.getAllStudents();
         try {
-            ObservableList<Student> data = FXCollections.observableArrayList();
-            while (rs.next()) {
-                Student student = new Student();
-                student.id.set(rs.getInt("id"));
-                student.nazwisko.set(rs.getString("nazwisko"));
-                student.imie.set(rs.getString("imie"));
-                student.dataUrodzenia.set(rs.getDate("data_urodzenia"));
-                student.nrTelefonu.set(rs.getInt("nr_telefonu"));
-                student.email.set(rs.getString("adres_email"));
-                student.adres.set(rs.getString("adres_zamieszkania"));
-                student.kierunek.set(rs.getString("symbol_kierunku"));
-                student.rokStudiow.set(rs.getInt("rok_studiow"));
-                student.czynsz.set(rs.getInt("wysokosc_czynszu"));
-                student.rodzajStolowki.set(rs.getString("rodzaj_stolowki"));
-                data.add(student);
-            }
-            table.setItems(data);
+            table.setItems(db.getAllStudents());
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("Error on Building Data");
@@ -100,7 +81,7 @@ public class ManageStudentsController implements Initializable {
     public void showByCourse(){
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/selectProfilePopup.fxml"));
+        loader.setLocation(getClass().getResource("../views/popups/selectProfilePopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -114,34 +95,132 @@ public class ManageStudentsController implements Initializable {
         }
     }
 
+    public void showByYear(){
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../views/popups/selectYearPopup.fxml"));
+        Parent layout;
+        try {
+            layout = loader.load();
+            Scene scene = new Scene(layout);
+            stage.setScene(scene);
+            stage.showAndWait();
+            //System.out.println("MSC: "+Context.getInstance().selectedSymbol);
+            table.setItems(db.getStudentsByYear(Context.getInstance().selectedYear));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showByCzynsz() {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../views/popups/selectCzynszPopup.fxml"));
+        Parent layout;
+        try {
+            layout = loader.load();
+            Scene scene = new Scene(layout);
+            stage.setScene(scene);
+            stage.showAndWait();
+            //System.out.println("MSC: "+Context.getInstance().selectedSymbol);
+            table.setItems(db.getStudentsByCzynsz(Context.getInstance().selectedCzynsz));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showByStolowka() {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../views/popups/selectStolowkaPopup.fxml"));
+        Parent layout;
+        try {
+            layout = loader.load();
+            Scene scene = new Scene(layout);
+            stage.setScene(scene);
+            stage.showAndWait();
+            //System.out.println("MSC: "+Context.getInstance().selectedStolowka);
+            table.setItems(db.getStudentsByStolowka(Context.getInstance().selectedStolowka));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deleteSelected(){
         Student s = (Student) table.getSelectionModel().getSelectedItem();
         int selectedId = 0;
         try {
             selectedId = s.id.getValue();
-            if(db.deleteStudentById(selectedId) && selectedId>0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Sukces");
-                alert.setHeaderText(null);
-                alert.setContentText("Usuwanie przebiegło pomyślnie");
-                alert.initOwner(rootPane.getScene().getWindow());
-                alert.showAndWait();
-                showStudents();
-            }else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Błąd");
-                alert.setHeaderText(null);
-                alert.setContentText("Wystąpił nieoczekiwany błąd");
-                alert.initOwner(rootPane.getScene().getWindow());
-                alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Potwierdź usuwanie");
+            alert.setHeaderText(null);
+            alert.setContentText("Czy chcesz usunąć tego studenta?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                if (db.deleteStudentById(selectedId) && selectedId > 0) {
+                    Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
+                    alertInfo.setTitle("Sukces");
+                    alertInfo.setHeaderText(null);
+                    alertInfo.setContentText("Usuwanie przebiegło pomyślnie");
+                    alertInfo.initOwner(rootPane.getScene().getWindow());
+                    alertInfo.showAndWait();
+                    showStudents();
+                } else {
+                    Alert alertErr1 = new Alert(Alert.AlertType.ERROR);
+                    alertErr1.setTitle("Błąd");
+                    alertErr1.setHeaderText(null);
+                    alertErr1.setContentText("Wystąpił nieoczekiwany błąd");
+                    alertErr1.initOwner(rootPane.getScene().getWindow());
+                    alertErr1.showAndWait();
+                }
             }
         }catch (NullPointerException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Błąd");
-            alert.setHeaderText(null);
-            alert.setContentText("Proszę wybrać studenta z listy");
-            alert.initOwner(rootPane.getScene().getWindow());
-            alert.showAndWait();
+            Alert alertErr2 = new Alert(Alert.AlertType.ERROR);
+            alertErr2.setTitle("Błąd");
+            alertErr2.setHeaderText(null);
+            alertErr2.setContentText("Proszę wybrać studenta z listy");
+            alertErr2.initOwner(rootPane.getScene().getWindow());
+            alertErr2.showAndWait();
+        }
+    }
+
+    public void addNewStudent() {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../views/popups/addStudentPopup.fxml"));
+        Parent layout;
+        try {
+            layout = loader.load();
+            Scene scene = new Scene(layout);
+            stage.setScene(scene);
+            stage.showAndWait();
+            showStudents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifyStudent(){
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../views/popups/modifyStudentPopup.fxml"));
+        Student s = (Student) table.getSelectionModel().getSelectedItem();
+        Parent layout;
+        try {
+            Context.getInstance().setStudent(s);
+            layout = loader.load();
+            Scene scene = new Scene(layout);
+            stage.setScene(scene);
+            stage.showAndWait();
+            showStudents();
+        } catch (IOException e) {
+            Alert alertErr2 = new Alert(Alert.AlertType.ERROR);
+            alertErr2.setTitle("Błąd");
+            alertErr2.setHeaderText(null);
+            alertErr2.setContentText("Proszę wybrać studenta z listy");
+            alertErr2.initOwner(rootPane.getScene().getWindow());
+            alertErr2.showAndWait();
+            e.printStackTrace();
         }
     }
 

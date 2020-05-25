@@ -1,4 +1,4 @@
-package controllers;
+package controllers.popupControllers;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
@@ -23,15 +23,7 @@ public class SelectProfileController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         db = Context.getInstance().getDbHandler();
-        ResultSet rs = db.getSymbols();
-        List<String> options = new ArrayList<>();
-        try{
-            while (rs.next()){
-                options.add(rs.getString("SymbolKierunku"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<String> options = db.getSymbols();
         comboSymbols.setItems(FXCollections.observableArrayList(options));
     }
 
