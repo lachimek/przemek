@@ -20,9 +20,9 @@ public class DbHandler {
             e.printStackTrace();
         }
     }
-
+    //Login
     public boolean loginUser(String login, String pass){
-        String query = "SELECT id FROM uzytkownicy WHERE Login=? AND Pass=?";
+        String query = "SELECT id FROM uzytkownicy WHERE BINARY Login=? AND BINARY Pass=?";
         PreparedStatement statement = null;
         try{
             statement = conn.prepareStatement(query);
@@ -39,7 +39,8 @@ public class DbHandler {
             return false;
         }
     }
-
+    //End login
+    //Manage students
     public ObservableList<Student> getAllStudents(){
         String query = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id order by studenci.id asc";
         Statement stmt = null;
@@ -241,6 +242,7 @@ public class DbHandler {
             while (rs.next()){
                 options.add(rs.getInt("wysokoscCzynszu"));
             }
+            options.add(0);
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("Error on Building Data");
@@ -266,7 +268,7 @@ public class DbHandler {
         return options;
     }
 
-    public boolean deleteStudentById(int id){ //todo nie dziala za chuj
+    public boolean deleteStudentById(int id){
         String query = "DELETE FROM studenci WHERE id=?";
         PreparedStatement stmt = null;
         try {
@@ -293,7 +295,12 @@ public class DbHandler {
             stmt.setString(6, student.adres.get());
             stmt.setInt(7, (getSymbols().indexOf(student.kierunek.get())+1));
             stmt.setInt(8, (getYears().indexOf(student.rokStudiow.get())+1));
-            stmt.setInt(9, (getCzynsze().indexOf(student.czynsz.get())+1));
+            if(student.czynsz.get() != 0){
+//                System.out.println("Czynsz != 0");
+                stmt.setInt(9, (getCzynsze().indexOf(student.czynsz.get())+1));
+            }else {
+                stmt.setNull(9, Types.INTEGER);
+            }
             stmt.setInt(10, (getStolowki().indexOf(student.rodzajStolowki.get())+1));
             stmt.execute();
         } catch (SQLException e) {
@@ -304,6 +311,7 @@ public class DbHandler {
     public void modifyStudent(Student student){
         String query = "UPDATE studenci SET Nazwisko = ?, Imie = ?, DataUrodzenia = ?, NrTelefonu = ?, AdresEmail = ?, AdresZamieszkania = ?, kierunekstudiow_id = ?, rokstudiow_id = ?, czynsz_id = ?, stolowka_id = ? WHERE id = ?;";
         PreparedStatement stmt = null;
+        System.out.println(student.dataUrodzenia.get());
         try {
             stmt = conn.prepareStatement(query);
             stmt.setString(1, student.nazwisko.get());
@@ -314,12 +322,24 @@ public class DbHandler {
             stmt.setString(6, student.adres.get());
             stmt.setInt(7, (getSymbols().indexOf(student.kierunek.get())+1));
             stmt.setInt(8, (getYears().indexOf(student.rokStudiow.get())+1));
-            stmt.setInt(9, (getCzynsze().indexOf(student.czynsz.get())+1));
+            if(student.czynsz.get() != 0){
+//                System.out.println("Czynsz != 0");
+                stmt.setInt(9, (getCzynsze().indexOf(student.czynsz.get())+1));
+            }else {
+                stmt.setNull(9, Types.INTEGER);
+            }
             stmt.setInt(10, (getStolowki().indexOf(student.rodzajStolowki.get())+1));
+//            System.out.println("Data: "+student.dataUrodzenia.get().toString());
+//            System.out.println("Kierunek id:" + (getSymbols().indexOf(student.kierunek.get())+1));
+//            System.out.println("Rok studiow id:" + (getYears().indexOf(student.rokStudiow.get())+1));
+//            System.out.println("Czynsz id:" + (getCzynsze().indexOf(student.czynsz.get())+1));
+//            System.out.println("Stolowka id:" + (getStolowki().indexOf(student.rodzajStolowki.get())+1));
             stmt.setInt(11, student.id.getValue());
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    //End manage students
+
 }

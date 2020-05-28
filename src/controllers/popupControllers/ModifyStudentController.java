@@ -12,6 +12,7 @@ import main.Student;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyStudentController implements Initializable {
@@ -34,17 +35,21 @@ public class ModifyStudentController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         db = Context.getInstance().getDbHandler();
         student = Context.getInstance().getStudent();
+
         comboProfile.setItems(FXCollections.observableArrayList(db.getSymbols()));
         comboYear.setItems(FXCollections.observableArrayList(db.getYears()));
         comboCzynsz.setItems(FXCollections.observableArrayList(db.getCzynsze()));
         comboStolowka.setItems(FXCollections.observableArrayList(db.getStolowki()));
-        surname.setText(student.nazwisko.get());
-        name.setText(student.imie.get());
-        Date d = (Date) student.dataUrodzenia.get();
+
+        surname.setText(Optional.ofNullable(student.nazwisko.get()).orElse(""));
+        name.setText(Optional.ofNullable(student.imie.get()).orElse(""));
+
+        Date d = (Date) Optional.ofNullable(student.dataUrodzenia.get()).orElse(new Date((2000-1900), 1, 1));
         birthDate.setValue(d.toLocalDate());
-        phoneNr.setText(String.valueOf(student.nrTelefonu.get()));
-        email.setText(student.email.get());
-        address.setText(student.adres.get());
+
+        phoneNr.setText(Optional.ofNullable(String.valueOf(student.nrTelefonu.get())).orElse(""));
+        email.setText(Optional.ofNullable(student.email.get()).orElse(""));
+        address.setText(Optional.ofNullable(student.adres.get()).orElse(""));
         comboProfile.setValue(student.kierunek.get());
         comboYear.setValue(student.rokStudiow.get());
         comboCzynsz.setValue(student.czynsz.get());
@@ -69,7 +74,7 @@ public class ModifyStudentController implements Initializable {
             newStudent.nazwisko.set(surname.getText());
             newStudent.imie.set(name.getText());
             Date date = Date.valueOf(birthDate.getValue());
-            student.dataUrodzenia.set(date);
+            newStudent.dataUrodzenia.set(date);
             String nr = phoneNr.getText().replaceAll("\\D+","");
             newStudent.nrTelefonu.set(Integer.parseInt(nr));
             newStudent.email.set(email.getText());
