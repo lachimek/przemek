@@ -44,6 +44,7 @@
             <Button layoutX="89.0" layoutY="863.0" mnemonicParsing="false" onAction="#deleteSelected" prefHeight="63.0" prefWidth="203.0" text="Usuń dane studenta" />
             <Button layoutX="89.0" layoutY="785.0" mnemonicParsing="false" onAction="#modifyStudent" prefHeight="63.0" prefWidth="203.0" text="Aktualizuj dane studenta" />
             <Button layoutX="539.0" layoutY="863.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="63.0" prefWidth="203.0" text="Powrót do menu głównego" />
+            <Button layoutX="539.0" layoutY="635.0" mnemonicParsing="false" onAction="#searchStudentBy" prefHeight="63.0" prefWidth="203.0" text="Wyszukaj studenta" />
          </children>
     </AnchorPane>
   </children>

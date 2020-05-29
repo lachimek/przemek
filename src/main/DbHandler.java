@@ -64,92 +64,44 @@ public class DbHandler {
         String query = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id order by studenci.id asc";
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Student> data = FXCollections.observableArrayList();
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                Student student = new Student();
-                student.id.set(rs.getInt("id"));
-                student.nazwisko.set(rs.getString("nazwisko"));
-                student.imie.set(rs.getString("imie"));
-                student.dataUrodzenia.set(rs.getDate("data_urodzenia"));
-                student.nrTelefonu.set(rs.getInt("nr_telefonu"));
-                student.email.set(rs.getString("adres_email"));
-                student.adres.set(rs.getString("adres_zamieszkania"));
-                student.kierunek.set(rs.getString("symbol_kierunku"));
-                student.rokStudiow.set(rs.getInt("rok_studiow"));
-                student.czynsz.set(rs.getInt("wysokosc_czynszu"));
-                student.rodzajStolowki.set(rs.getString("rodzaj_stolowki"));
-                data.add(student);
-            }
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
-        return data;
+        return assignResultsetToStudent(rs);
     }
 
     public ObservableList<Student> getStudentsByProfile(String profileName){
         String query = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id where binary symbolkierunku = ? order by studenci.id asc;";
         PreparedStatement statement = null;
         ResultSet rs = null;
-        ObservableList<Student> data = FXCollections.observableArrayList();
         try {
             statement = conn.prepareStatement(query);
             statement.setString(1, profileName);
             rs = statement.executeQuery();
-            while (rs.next()) {
-                Student student = new Student();
-                student.id.set(rs.getInt("id"));
-                student.nazwisko.set(rs.getString("nazwisko"));
-                student.imie.set(rs.getString("imie"));
-                student.dataUrodzenia.set(rs.getDate("data_urodzenia"));
-                student.nrTelefonu.set(rs.getInt("nr_telefonu"));
-                student.email.set(rs.getString("adres_email"));
-                student.adres.set(rs.getString("adres_zamieszkania"));
-                student.kierunek.set(rs.getString("symbol_kierunku"));
-                student.rokStudiow.set(rs.getInt("rok_studiow"));
-                student.czynsz.set(rs.getInt("wysokosc_czynszu"));
-                student.rodzajStolowki.set(rs.getString("rodzaj_stolowki"));
-                data.add(student);
-            }
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
-        return data;
+        return assignResultsetToStudent(rs);
     }
 
     public ObservableList<Student> getStudentsByYear(int year){
         String query = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id where rokstudiow = ? order by studenci.id asc;";
         PreparedStatement statement = null;
         ResultSet rs = null;
-        ObservableList<Student> data = FXCollections.observableArrayList();
         try {
             statement = conn.prepareStatement(query);
             statement.setInt(1, year);
             rs = statement.executeQuery();
-            while (rs.next()) {
-                Student student = new Student();
-                student.id.set(rs.getInt("id"));
-                student.nazwisko.set(rs.getString("nazwisko"));
-                student.imie.set(rs.getString("imie"));
-                student.dataUrodzenia.set(rs.getDate("data_urodzenia"));
-                student.nrTelefonu.set(rs.getInt("nr_telefonu"));
-                student.email.set(rs.getString("adres_email"));
-                student.adres.set(rs.getString("adres_zamieszkania"));
-                student.kierunek.set(rs.getString("symbol_kierunku"));
-                student.rokStudiow.set(rs.getInt("rok_studiow"));
-                student.czynsz.set(rs.getInt("wysokosc_czynszu"));
-                student.rodzajStolowki.set(rs.getString("rodzaj_stolowki"));
-                data.add(student);
-            }
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
-        return data;
+        return assignResultsetToStudent(rs);
     }
 
     public ObservableList<Student> getStudentsByCzynsz(int czynsz){
@@ -157,7 +109,6 @@ public class DbHandler {
         String queryNull = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id where wysokoscczynszu IS NULL order by studenci.id asc;";
         PreparedStatement statement = null;
         ResultSet rs = null;
-        ObservableList<Student> data = FXCollections.observableArrayList();
         try {
             if(czynsz != 0){
                 statement = conn.prepareStatement(query);
@@ -167,37 +118,31 @@ public class DbHandler {
                 statement = conn.prepareStatement(queryNull);
             }
             rs = statement.executeQuery();
-            while (rs.next()) {
-                Student student = new Student();
-                student.id.set(rs.getInt("id"));
-                student.nazwisko.set(rs.getString("nazwisko"));
-                student.imie.set(rs.getString("imie"));
-                student.dataUrodzenia.set(rs.getDate("data_urodzenia"));
-                student.nrTelefonu.set(rs.getInt("nr_telefonu"));
-                student.email.set(rs.getString("adres_email"));
-                student.adres.set(rs.getString("adres_zamieszkania"));
-                student.kierunek.set(rs.getString("symbol_kierunku"));
-                student.rokStudiow.set(rs.getInt("rok_studiow"));
-                student.czynsz.set(rs.getInt("wysokosc_czynszu"));
-                student.rodzajStolowki.set(rs.getString("rodzaj_stolowki"));
-                data.add(student);
-            }
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
-        return data;
+        return assignResultsetToStudent(rs);
     }
 
     public ObservableList<Student> getStudentsByStolowka(String stolowka){
         String query = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id where rodzaj = ? order by studenci.id asc;";
         PreparedStatement statement = null;
         ResultSet rs = null;
-        ObservableList<Student> data = FXCollections.observableArrayList();
         try {
             statement = conn.prepareStatement(query);
             statement.setString(1, stolowka);
             rs = statement.executeQuery();
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return assignResultsetToStudent(rs);
+    }
+
+    private ObservableList<Student> assignResultsetToStudent(ResultSet rs){
+        ObservableList<Student> data = FXCollections.observableArrayList();
+        try {
             while (rs.next()) {
                 Student student = new Student();
                 student.id.set(rs.getInt("id"));
@@ -369,9 +314,121 @@ public class DbHandler {
             e.printStackTrace();
         }
     }
+
+    public ObservableList<Student> getStudentsBySelected(OptionDataPair dataPair){
+        String queryName = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id where imie like ? order by studenci.id asc;";
+        String querySurname = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id where nazwisko like ? order by studenci.id asc;";
+        String queryAddress = "select studenci.id, studenci.nazwisko, studenci.imie, studenci.dataurodzenia as data_urodzenia, studenci.nrtelefonu as nr_telefonu, studenci.adresemail as adres_email, studenci.adreszamieszkania as adres_zamieszkania, kierunekstudiow.symbolkierunku as symbol_kierunku, rokstudiow.rokstudiow as rok_studiow, czynsz.wysokoscczynszu as wysokosc_czynszu, stolowka.rodzaj as rodzaj_stolowki from studenci left join kierunekstudiow on studenci.kierunekstudiow_id = kierunekstudiow.id left join rokstudiow on studenci.rokstudiow_id = rokstudiow.id left join czynsz on studenci.czynsz_id = czynsz.id left join stolowka on studenci.stolowka_id = stolowka.id where adreszamieszkania like ? order by studenci.id asc;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ObservableList<Student> data = FXCollections.observableArrayList();
+        try {
+            String like = "%"+dataPair.getData()+"%";
+            switch (dataPair.getOption()){
+                case "Imie":
+                    stmt = conn.prepareStatement(queryName);
+                    stmt.setString(1, like);
+                    break;
+                case "Nazwisko":
+                    stmt = conn.prepareStatement(querySurname);
+                    stmt.setString(1, like);
+                    break;
+                case "Adres":
+                    stmt = conn.prepareStatement(queryAddress);
+                    stmt.setString(1, like);
+                    break;
+            }
+            rs = stmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return assignResultsetToStudent(rs);
+    }
     //End manage students
     //Start manage accommodation
+    private ObservableList<Accommodation> assignResultsetToAccomm(ResultSet rs){
+        ObservableList<Accommodation> data = FXCollections.observableArrayList();
+        try {
+            while (rs.next()) {
+                Accommodation accommodation = new Accommodation();
+                accommodation.id_accomm.set(rs.getInt("numer_zakwaterowania"));
+                accommodation.floor.set(rs.getInt("pietro"));
+                accommodation.room_nr.set(rs.getInt("numer_pokoju"));
+                accommodation.room_size.set(rs.getInt("wielkosc_pokoju"));
+                accommodation.imie.set(rs.getString("imie"));
+                accommodation.nazwisko.set(rs.getString("nazwisko"));
+                data.add(accommodation);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return data;
+    }
 
+    public ObservableList<Accommodation> getAccommodation(){
+        String query = "select zakwaterowanie.id as numer_zakwaterowania, pokoje.pietro, pokoje.numerpokoju as numer_pokoju, pokoje.wielkoscpokoju as wielkosc_pokoju, studenci.imie, studenci.nazwisko from zakwaterowanie left join pokoje on zakwaterowanie.pokoje_id = pokoje.id left join studenci on zakwaterowanie.studenci_id = studenci.id order by zakwaterowanie.id asc";
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return assignResultsetToAccomm(rs);
+    }
+
+    public ObservableList<Accommodation> getAccommodationByFloor(int floor){
+        String query = "select zakwaterowanie.id as numer_zakwaterowania, pokoje.pietro, pokoje.numerpokoju as numer_pokoju, pokoje.wielkoscpokoju as wielkosc_pokoju, studenci.imie, studenci.nazwisko from zakwaterowanie left join pokoje on zakwaterowanie.pokoje_id = pokoje.id left join studenci on zakwaterowanie.studenci_id = studenci.id where pietro = ? order by zakwaterowanie.id asc;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, floor);
+            rs = stmt.executeQuery();
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return assignResultsetToAccomm(rs);
+    }
+
+    public ObservableList<Accommodation> getAccommodationByRoom(int room){
+        String query = "select zakwaterowanie.id as numer_zakwaterowania, pokoje.pietro, pokoje.numerpokoju as numer_pokoju, pokoje.wielkoscpokoju as wielkosc_pokoju, studenci.imie, studenci.nazwisko from zakwaterowanie left join pokoje on zakwaterowanie.pokoje_id = pokoje.id left join studenci on zakwaterowanie.studenci_id = studenci.id where numerpokoju = ? order by zakwaterowanie.id asc;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, room);
+            rs = stmt.executeQuery();
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return assignResultsetToAccomm(rs);
+    }
+
+
+
+    public List<Integer> getRooms(){
+        String query = "SELECT NumerPokoju FROM pokoje";
+        List<Integer> options = new ArrayList<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()){
+                options.add(rs.getInt("NumerPokoju"));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return options;
+    }
     //End manage accommodation
     //Start payment history
     public ObservableList<PaymentHistory> getPaymentHistory(){

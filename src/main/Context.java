@@ -8,6 +8,10 @@ public class Context {
     public String selectedStolowka;
     public int selectedMonth;
     public String selectedUser;
+    public int selectedFloor;
+    public int selectedRoom;
+
+
 
     public static Context getInstance(){
         return instance;
@@ -26,4 +30,7 @@ public class Context {
 
     private DbHandler dbHandler = new DbHandler();
     public DbHandler getDbHandler(){ return dbHandler; }
+
+    private OptionDataPair optionDataPair = new OptionDataPair();
+    public OptionDataPair getOptionDataPair(){ return optionDataPair; }
 }

@@ -224,6 +224,23 @@ public class ManageStudentsController implements Initializable {
         }
     }
 
+    public void searchStudentBy(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../views/popups/searchByPopup.fxml"));
+        Parent layout;
+        try {
+            layout = loader.load();
+            Scene scene = new Scene(layout);
+            stage.setScene(scene);
+            stage.showAndWait();
+            //System.out.println("MSC: "+Context.getInstance().selectedStolowka);
+            table.setItems(db.getStudentsBySelected(Context.getInstance().getOptionDataPair()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void backToMainMenu() throws IOException {
         VBox pane = FXMLLoader.load(getClass().getResource("../views/menu_glowne.fxml"));
         rootPane.getChildren().setAll(pane);
