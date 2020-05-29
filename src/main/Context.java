@@ -6,6 +6,8 @@ public class Context {
     public int selectedYear;
     public int selectedCzynsz;
     public String selectedStolowka;
+    public int selectedMonth;
+    public String selectedUser;
 
     public static Context getInstance(){
         return instance;

@@ -2,29 +2,38 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="527.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaymentHistoryController">
+<VBox prefHeight="960.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaymentHistoryController">
    <children>
-      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="508.0" prefWidth="640.0" style="-fx-background-color: #EEB902;" VBox.vgrow="ALWAYS" fx:id="rootPane">
+      <AnchorPane fx:id="rootPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="508.0" prefWidth="640.0" style="-fx-background-color: #EEB902;" VBox.vgrow="ALWAYS">
          <children>
-            <Label layoutX="248.0" layoutY="14.0" text="Historia wpłat">
+            <Label layoutX="567.0" layoutY="26.0" text="Historia wpłat">
                <font>
                   <Font name="Helonia" size="24.0" />
                </font>
             </Label>
-            <AnchorPane layoutX="77.0" layoutY="68.0" prefHeight="238.0" prefWidth="508.0" style="-fx-background-color: #8FC93A;">
+            <AnchorPane layoutX="28.0" layoutY="88.0" prefHeight="523.0" prefWidth="1225.0" style="-fx-background-color: #8FC93A;">
                <children>
-                  <Label layoutX="93.0" layoutY="47.0" text="Tutaj wyświetlany wynik zapytań, jakiś przewijany box czy coś" />
+                  <TableView fx:id="table" layoutX="7.0" layoutY="6.0" prefHeight="512.0" prefWidth="1210.0">
+                     <columns>
+                        <TableColumn fx:id="colNrWplaty" prefWidth="125.0" text="numer_wplaty" />
+                        <TableColumn fx:id="colIdStud" minWidth="0.0" prefWidth="120.0" text="id_studenta" />
+                        <TableColumn fx:id="colImie" prefWidth="162.0" text="imie" />
+                        <TableColumn fx:id="colNazwisko" prefWidth="204.0" text="nazwisko" />
+                        <TableColumn fx:id="colData" prefWidth="149.0" text="data" />
+                        <TableColumn fx:id="colKwota" prefWidth="175.0" text="kwota_wplaty" />
+                     </columns></TableView>
                </children>
             </AnchorPane>
-            <Button layoutX="26.0" layoutY="344.0" mnemonicParsing="false" text="Wyświetl historię wpłat" />
-            <Button layoutX="26.0" layoutY="378.0" mnemonicParsing="false" text="Wyświetl historię wpłat w danym miesiącu" />
-            <Button layoutX="26.0" layoutY="412.0" mnemonicParsing="false" text="Wyświetl studentów którzy nie wpłacili w danym miesiącu" />
-            <Label layoutX="26.0" layoutY="315.0" text="rzeczy po lewej to główne funkcje, może jako faktyczzne buttony pod polem zapytań, albo menu, jak będzie lepeij" />
-            <Button layoutX="26.0" layoutY="488.0" mnemonicParsing="false" text="Powrót do menu głównego" onAction="#backToMainMenu"/>
+            <Button layoutX="78.0" layoutY="637.0" mnemonicParsing="false" onAction="#showHistory" prefHeight="63.0" prefWidth="203.0" text="Wyświetl historię wpłat" textAlignment="CENTER" />
+            <Button layoutX="990.0" layoutY="710.0" mnemonicParsing="false" onAction="#showHistoryByMonth" prefHeight="63.0" prefWidth="203.0" text="Wyświetl historię wpłat w danym miesiącu" textAlignment="CENTER" wrapText="true" />
+            <Button layoutX="990.0" layoutY="637.0" mnemonicParsing="false" onAction="#showHistoryNotPaid" prefHeight="63.0" prefWidth="203.0" text="Wyświetl studentów którzy nie wpłacili w danym miesiącu" textAlignment="CENTER" wrapText="true" />
+            <Button layoutX="560.0" layoutY="873.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="63.0" prefWidth="203.0" text="Powrót do menu głównego" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </children>
