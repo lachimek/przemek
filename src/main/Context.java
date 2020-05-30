@@ -33,4 +33,8 @@ public class Context {
 
     private OptionDataPair optionDataPair = new OptionDataPair();
     public OptionDataPair getOptionDataPair(){ return optionDataPair; }
+
+    private Accommodation accommodation = new Accommodation();
+    public void setAccommodation(Accommodation accommodation) { this.accommodation = accommodation; }
+    public Accommodation getAccommodation() { return accommodation; }
 }

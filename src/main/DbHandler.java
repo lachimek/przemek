@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class DbHandler {
@@ -410,7 +411,52 @@ public class DbHandler {
         return assignResultsetToAccomm(rs);
     }
 
+    public void addAccomm(int room, int student){
+        String query = "INSERT INTO `zakwaterowanie`(`Pokoje_id`, `Studenci_id`) VALUES (?,?)";
+        PreparedStatement stmt = null;
+        try {
+            int roomId = getRoomIdByNr(room);
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, roomId);
+            stmt.setInt(2, student);
+            System.out.println("SID: "+student+" RID: "+roomId);
+            stmt.execute();
+            addToEventLog("INSERT zakwaterowanie", student);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void modifyAccomm(int room, int student, int id){
+        String query = "update zakwaterowanie set pokoje_id = ?, studenci_id = ? where id = ?;";
+        PreparedStatement stmt = null;
+        try {
+            int roomId = getRoomIdByNr(room);
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, roomId);
+            stmt.setInt(2, student);
+            stmt.setInt(3, id);
+            stmt.execute();
+            addToEventLog("UPDATE zakwaterowanie", student);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean deleteAccommById(int id){
+        String query = "DELETE FROM zakwaterowanie WHERE id=?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+            stmt.execute();
+            addToEventLog("DELETE zakwaterowanie", id);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public List<Integer> getRooms(){
         String query = "SELECT NumerPokoju FROM pokoje";
@@ -428,6 +474,80 @@ public class DbHandler {
             System.out.println("Error on Building Data");
         }
         return options;
+    }
+
+    private int getRoomIdByNr(int nr){
+        String query = "SELECT id FROM pokoje WHERE NumerPokoju = ?";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, nr);
+            rs = stmt.executeQuery();
+            rs.first();
+            return rs.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public List<Room> getNotFullRooms(){
+        String query = "select pokoje.id as pokoje_id, numerpokoju as numer_pokoju, COUNT(zakwaterowanie.pokoje_id) as ilosc_osob, pokoje.wielkoscpokoju from pokoje left outer join zakwaterowanie on pokoje.id = zakwaterowanie.pokoje_id group by zakwaterowanie.pokoje_id having COUNT(zakwaterowanie.pokoje_id) < pokoje.wielkoscpokoju union select pokoje.id as pokoje_id, numerpokoju as numer_pokoju, COUNT(zakwaterowanie.pokoje_id) as ilosc_osob, pokoje.wielkoscpokoju from pokoje right outer join zakwaterowanie on pokoje.id = zakwaterowanie.pokoje_id group by zakwaterowanie.pokoje_id having COUNT(zakwaterowanie.pokoje_id) < pokoje.wielkoscpokoju order by pokoje_id;";
+        List<Room> rooms = new ArrayList<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()){
+                rooms.add(new Room(
+                        rs.getInt("numer_pokoju"),
+                        rs.getInt("ilosc_osob"),
+                        rs.getInt("wielkoscpokoju")
+                ));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return rooms;
+    }
+
+    public HashMap<Integer, String> getStudentsWithNullCzynsz(){
+        String query = "SELECT id, Imie, Nazwisko FROM studenci";
+        HashMap<Integer, String> idStudent = new HashMap<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()){
+                String x = rs.getString("Imie") +" "+rs.getString("Nazwisko");
+                idStudent.put(rs.getInt("id"), x);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return idStudent;
+    }
+
+    public int getStudentId(String name, String surname){
+        String query = "SELECT id FROM studenci WHERE Imie = ? AND Nazwisko = ?";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, name);
+            stmt.setString(2, surname);
+            rs = stmt.executeQuery();
+            rs.first();
+            return rs.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
     //End manage accommodation
     //Start payment history
@@ -583,4 +703,5 @@ public class DbHandler {
         return data;
     }
     //End event log
+
 }
