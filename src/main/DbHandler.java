@@ -515,7 +515,7 @@ public class DbHandler {
     }
 
     public HashMap<Integer, String> getStudentsWithNullCzynsz(){
-        String query = "SELECT id, Imie, Nazwisko FROM studenci";
+        String query = "SELECT id, Imie, Nazwisko FROM studenci where czynsz_id is NULL";
         HashMap<Integer, String> idStudent = new HashMap<>();
         Statement stmt = null;
         ResultSet rs = null;
