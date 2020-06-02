@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DbHandler {
-    private final String connectionUri = "jdbc:mysql://localhost/przemek"; //przemek to nazwa bazy w phpmyadmin
+    private final String connectionUri = "jdbc:mysql://localhost/e_akademik";
     private Connection conn;
     public DbHandler(){
         try {
@@ -345,6 +345,24 @@ public class DbHandler {
         }
         return assignResultsetToStudent(rs);
     }
+
+    public HashMap<Integer, String> getAllStudentsMap(){
+        String query = "SELECT id, Imie, Nazwisko FROM studenci";
+        HashMap<Integer, String> map = new HashMap<>();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try{
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                String stu = rs.getString("Imie")+" "+rs.getString("Nazwisko");
+                map.put(rs.getInt("id"), stu);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
     //End manage students
     //Start manage accommodation
     private ObservableList<Accommodation> assignResultsetToAccomm(ResultSet rs){
@@ -637,6 +655,52 @@ public class DbHandler {
             System.out.println("Error on Building Data");
         }
         return data;
+    }
+
+    public boolean deletePaymentById(int id){
+        String query = "DELETE FROM historiawplat WHERE id=?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+            stmt.execute();
+            addToEventLog("DELETE historiawplat", id);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void addNewPayment(int stuId, Date d, int amount){
+        String query = "insert into historiawplat values (DEFAULT, ?, ?, ?);";
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, stuId);
+            stmt.setDate(2, d);
+            stmt.setInt(3, amount);
+            stmt.execute();
+            addToEventLog("INSERT historiawplat", stuId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifyPayment(int stuId, Date d, int amount, int paymentId){
+        String query = "update historiawplat set studenci_id = ?, data = ?, kwotawplaty = ? where id = ?;";
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, stuId);
+            stmt.setDate(2, d);
+            stmt.setInt(3, amount);
+            stmt.setInt(4, paymentId);
+            stmt.execute();
+            addToEventLog("UPDATE historiawplat", stuId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     //End payment history
     //Start event log

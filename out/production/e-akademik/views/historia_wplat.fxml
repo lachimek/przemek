@@ -33,7 +33,10 @@
             <Button layoutX="78.0" layoutY="637.0" mnemonicParsing="false" onAction="#showHistory" prefHeight="63.0" prefWidth="203.0" text="Wyświetl historię wpłat" textAlignment="CENTER" />
             <Button layoutX="990.0" layoutY="710.0" mnemonicParsing="false" onAction="#showHistoryByMonth" prefHeight="63.0" prefWidth="203.0" text="Wyświetl historię wpłat w danym miesiącu" textAlignment="CENTER" wrapText="true" />
             <Button layoutX="990.0" layoutY="637.0" mnemonicParsing="false" onAction="#showHistoryNotPaid" prefHeight="63.0" prefWidth="203.0" text="Wyświetl studentów którzy nie wpłacili w danym miesiącu" textAlignment="CENTER" wrapText="true" />
-            <Button layoutX="560.0" layoutY="873.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="63.0" prefWidth="203.0" text="Powrót do menu głównego" textAlignment="CENTER" />
+            <Button layoutX="558.0" layoutY="860.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="63.0" prefWidth="203.0" text="Powrót do menu głównego" textAlignment="CENTER" />
+            <Button layoutX="78.0" layoutY="710.0" mnemonicParsing="false" onAction="#addPayment" prefHeight="63.0" prefWidth="203.0" text="Dodaj wpłatę" textAlignment="CENTER" />
+            <Button layoutX="78.0" layoutY="785.0" mnemonicParsing="false" onAction="#modifyPayment" prefHeight="63.0" prefWidth="203.0" text="Aktualizuj wpłatę" textAlignment="CENTER" />
+            <Button layoutX="78.0" layoutY="860.0" mnemonicParsing="false" onAction="#deletePayment" prefHeight="63.0" prefWidth="203.0" text="Usuń wpłatę" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </children>

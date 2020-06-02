@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.popupControllers.ModifyPaymentController">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="400.0" prefWidth="239.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Button layoutX="117.0" layoutY="323.0" mnemonicParsing="false" onAction="#modify" fx:id="btn" prefHeight="35.0" prefWidth="149.0" text="Modyfikuj">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+            <TextField layoutX="105.0" layoutY="225.0" prefHeight="30.0" prefWidth="174.0" fx:id="amount" promptText="Kwota wpłaty" />
+            <Label layoutX="93.0" layoutY="48.0" text="Modyfikuj wpłatę">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <ComboBox layoutX="105.0" layoutY="145.0" prefHeight="30.0" prefWidth="174.0" fx:id="comboStudents" promptText="Wybierz studenta" />
+            <DatePicker layoutX="105.0" layoutY="185.0" prefHeight="30.0" prefWidth="174.0" fx:id="date" promptText="Data wpłaty" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>

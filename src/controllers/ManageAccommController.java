@@ -3,6 +3,7 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -53,7 +54,7 @@ public class ManageAccommController implements Initializable {
     public void showByFloor() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/selectFloorPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/selectFloorPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -69,7 +70,7 @@ public class ManageAccommController implements Initializable {
     public void showByRoom(){
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/selectRoomPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/selectRoomPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -99,7 +100,7 @@ public class ManageAccommController implements Initializable {
     public void addNewAccomm() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/addAccommPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/addAccommPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -115,7 +116,7 @@ public class ManageAccommController implements Initializable {
     public void modifyAccomm() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/modifyAccommPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/modifyAccommPopup.fxml"));
         Parent layout;
         Accommodation a = (Accommodation) table.getSelectionModel().getSelectedItem();
         try {
@@ -132,7 +133,6 @@ public class ManageAccommController implements Initializable {
             alertErr2.setContentText("Proszę wybrać studenta z listy");
             alertErr2.initOwner(rootPane.getScene().getWindow());
             alertErr2.showAndWait();
-            e.printStackTrace();
         }
     }
 
@@ -175,7 +175,7 @@ public class ManageAccommController implements Initializable {
     }
 
     public void backToMainMenu() throws IOException {
-        VBox pane = FXMLLoader.load(getClass().getResource("../views/menu_glowne.fxml"));
+        VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/menu_glowne.fxml"));
         rootPane.getChildren().setAll(pane);
     }
 }

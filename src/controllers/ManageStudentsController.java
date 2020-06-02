@@ -81,7 +81,7 @@ public class ManageStudentsController implements Initializable {
     public void showByCourse(){
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/selectProfilePopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/selectProfilePopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -98,7 +98,7 @@ public class ManageStudentsController implements Initializable {
     public void showByYear(){
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/selectYearPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/selectYearPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -115,7 +115,7 @@ public class ManageStudentsController implements Initializable {
     public void showByCzynsz() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/selectCzynszPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/selectCzynszPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -132,7 +132,7 @@ public class ManageStudentsController implements Initializable {
     public void showByStolowka() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/selectStolowkaPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/selectStolowkaPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -187,7 +187,7 @@ public class ManageStudentsController implements Initializable {
     public void addNewStudent() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/addStudentPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/addStudentPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -203,7 +203,7 @@ public class ManageStudentsController implements Initializable {
     public void modifyStudent(){
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/modifyStudentPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/modifyStudentPopup.fxml"));
         Student s = (Student) table.getSelectionModel().getSelectedItem();
         Parent layout;
         try {
@@ -227,7 +227,7 @@ public class ManageStudentsController implements Initializable {
     public void searchStudentBy(ActionEvent actionEvent) {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/searchByPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/searchByPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -242,7 +242,7 @@ public class ManageStudentsController implements Initializable {
     }
 
     public void backToMainMenu() throws IOException {
-        VBox pane = FXMLLoader.load(getClass().getResource("../views/menu_glowne.fxml"));
+        VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/menu_glowne.fxml"));
         rootPane.getChildren().setAll(pane);
     }
 }

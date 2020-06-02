@@ -7,10 +7,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public static Stage mStage;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../views/logowanie.fxml"));
+        System.out.println("App started");
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/logowanie.fxml"));
         primaryStage.setTitle("e-akademik");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

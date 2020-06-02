@@ -28,28 +28,28 @@ public class MainMenuController implements Initializable {
 
     public void logout() throws IOException {
         Context.getInstance().getUser().logout();
-        VBox pane = FXMLLoader.load(getClass().getResource("../views/logowanie.fxml"));
+        VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/logowanie.fxml"));
         rootPane.getChildren().setAll(pane);
     }
 
     public void openManageStudents() throws IOException {
-        VBox pane = FXMLLoader.load(getClass().getResource("../views/zarzadzanie_studenci.fxml"));
+        VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/zarzadzanie_studenci.fxml"));
         System.out.println(pane.getPrefWidth()+" "+pane.getPrefHeight());
         rootPane.getChildren().setAll(pane);
     }
 
     public void openManageAccomm() throws IOException {
-        VBox pane = FXMLLoader.load(getClass().getResource("../views/zarzadzanie_zakwaterowanie.fxml"));
+        VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/zarzadzanie_zakwaterowanie.fxml"));
         rootPane.getChildren().setAll(pane);
     }
 
     public void openEventLog() throws IOException {
-        VBox pane = FXMLLoader.load(getClass().getResource("../views/dziennik_zdarzen.fxml"));
+        VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/dziennik_zdarzen.fxml"));
         rootPane.getChildren().setAll(pane);
     }
 
     public void openPaymentHistory() throws IOException {
-        VBox pane = FXMLLoader.load(getClass().getResource("../views/historia_wplat.fxml"));
+        VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/historia_wplat.fxml"));
         rootPane.getChildren().setAll(pane);
     }
 }

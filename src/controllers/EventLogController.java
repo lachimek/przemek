@@ -51,7 +51,7 @@ public class EventLogController implements Initializable {
     public void showForUser() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../views/popups/selectUserPopup.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("views/popups/selectUserPopup.fxml"));
         Parent layout;
         try {
             layout = loader.load();
@@ -65,7 +65,7 @@ public class EventLogController implements Initializable {
     }
 
     public void backToMainMenu() throws IOException {
-        VBox pane = FXMLLoader.load(getClass().getResource("../views/menu_glowne.fxml"));
+        VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/menu_glowne.fxml"));
         rootPane.getChildren().setAll(pane);
     }
 }

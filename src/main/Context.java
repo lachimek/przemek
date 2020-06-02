@@ -37,4 +37,8 @@ public class Context {
     private Accommodation accommodation = new Accommodation();
     public void setAccommodation(Accommodation accommodation) { this.accommodation = accommodation; }
     public Accommodation getAccommodation() { return accommodation; }
+
+    private PaymentHistory paymentHistory = new PaymentHistory();
+    public void setPaymentHistory(PaymentHistory paymentHistory) { this.paymentHistory = paymentHistory; }
+    public PaymentHistory getPaymentHistory() { return paymentHistory; }
 }

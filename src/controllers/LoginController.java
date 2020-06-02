@@ -23,7 +23,7 @@ public class LoginController {
         if(Context.getInstance().getDbHandler().loginUser(loginTF.getText(), passTF.getText())){
             System.out.println("success");
             Context.getInstance().getUser().logIn(loginTF.getText(), passTF.getText());
-            VBox pane = FXMLLoader.load(getClass().getResource("../views/menu_glowne.fxml"));
+            VBox pane = FXMLLoader.load(getClass().getClassLoader().getResource("views/menu_glowne.fxml"));
             rootPane.getChildren().setAll(pane);
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
